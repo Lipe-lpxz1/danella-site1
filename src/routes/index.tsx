@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
           "Site oficial de Danella. Ouça o novo álbum, veja a agenda de shows e contrate apresentações.",
       },
       { property: "og:title", content: "Danella — Site Oficial" },
-      { property: "og:description", content: "Site oficial de Danella. Ouça o novo álbum, veja a agenda de shows e contrate apresentações." },
+      { property: "og:description", content: "Danella a Rainha do Piseiro." },
       { property: "og:url", content: "/" },
     ],
     links: [
