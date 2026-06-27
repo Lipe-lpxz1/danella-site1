@@ -12,7 +12,6 @@ import appCss from "../styles.css?url";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 
-// Página mostrada quando o visitante acessa uma URL que não existe (erro 404).
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -35,9 +34,6 @@ function NotFoundComponent() {
   );
 }
 
-// Página mostrada quando ocorre um erro inesperado ao renderizar uma rota.
-// Diferente da página de erro do servidor (lib/error-page.ts), esta é
-// renderizada pelo próprio React no navegador.
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
@@ -73,9 +69,6 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-// Rota raiz da aplicação: define metadados globais (título, descrição,
-// favicon, fontes) que valem para todas as páginas do site, além de
-// registrar os componentes de "página não encontrada" e "erro".
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
@@ -117,8 +110,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
-// Estrutura HTML mais externa de toda a aplicação (a tag <html> em si).
-// Usada tanto no servidor (SSR) quanto no navegador.
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR">
@@ -133,9 +124,6 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Layout principal: cabeçalho fixo + conteúdo da página atual (Outlet)
-// + rodapé. O QueryClientProvider disponibiliza o React Query para
-// todas as páginas, caso alguma precise buscar dados do servidor.
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
