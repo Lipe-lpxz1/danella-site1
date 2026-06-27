@@ -90,27 +90,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:site_name", content: "Danella" },
       { property: "og:type", content: "website" },
-      // Imagem mostrada quando o link do site é compartilhado no
-      // WhatsApp, Instagram, Telegram, Facebook, etc. O arquivo precisa
-      // estar na pasta "public/" (não em "src/assets/"), porque imagens
-      // em "public/" são copiadas direto para o site, sem passar pelo
-      // processamento de import do Vite — e por isso podem ser
-      // referenciadas por um caminho de URL simples como "/compartilhar.jpg".
-      //
-      // Usamos a URL completa (com https://...) em vez de só
-      // "/compartilhar.jpg", porque vários desses aplicativos (em
-      // especial o WhatsApp) não confiam em caminhos relativos para
-      // montar o preview — eles podem simplesmente não mostrar nenhuma
-      // imagem se a URL não estiver completa.
-      //
-      // Tamanho recomendado: 1200x630px, em formato .jpg (não .webp —
-      // o suporte a .webp nesses previews ainda é inconsistente entre
-      // apps, então .jpg é a escolha mais segura aqui).
-      { property: "og:image", content: "https://danellaoficial.com.br/compartilhar.jpg" },
-      { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://danellaoficial.com.br/compartilhar.jpg" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
