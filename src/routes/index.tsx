@@ -11,7 +11,7 @@ import { SmartImage } from "@/components/SmartImage";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Danella — Cantora, intérprete e compositora" },
+      { title: "Danella a Rainha do Piseiro." },
       {
         name: "description",
         content:
