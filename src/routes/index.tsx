@@ -11,14 +11,14 @@ import { SmartImage } from "@/components/SmartImage";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Danella — Cantora, intérprete e compositora" },
+      { title: "Danella a Rainha do Piseiro." },
       {
         name: "description",
         content:
           "Site oficial de Danella. Ouça o novo álbum, veja a agenda de shows e contrate apresentações.",
       },
       { property: "og:title", content: "Danella — Site Oficial" },
-      { property: "og:description", content: "Música cinematográfica, ao vivo e em estúdio." },
+      { property: "og:description", content: "Danella a Rainha do Piseiro." },
       { property: "og:url", content: "/" },
     ],
     links: [
