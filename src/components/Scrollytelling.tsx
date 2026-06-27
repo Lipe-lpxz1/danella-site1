@@ -23,7 +23,7 @@ const chapters = [
   {
     no: "III",
     title: "Presença",
-    text: "Nos dias de hoje, Danella é uma artista nacional consolidada, de nome e entrega, que leva aos palcos profissionalismo, segurança e a maturidade de quem transforma experiência em presença. Tal como um bom vinho, sua arte amadureceu com o tempo.",
+    text: "​Quando Danella assume o comando, o palco vira o centro de uma energia absoluta. A cantora domina o ambiente com uma entrega que vai além da música: aqui, a conexão não é um detalhe, é o coração do show. Com a assinatura de um espetáculo inesquecível, Danella, a rainha do piseiro, impõe uma voz marcante que transforma cada momento em uma vivência única e inesquecível para o povo.",
     img: presencaAsset,
   },
 ];
