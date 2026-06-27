@@ -1,0 +1,11 @@
+# Configuração de build do Netlify para este site.
+#
+# Este projeto usa TanStack Start + Nitro (configurado com o preset
+# "netlify" em vite.config.ts). O Nitro empacota o site em duas partes:
+# os arquivos estáticos (HTML/CSS/JS/imagens, em "dist/") e a função
+# serverless que processa cada página com SSR (gerada automaticamente
+# dentro de ".netlify/functions-internal/" durante o próprio build do
+# Netlify — não é algo que precisamos configurar manualmente aqui).
+[build]
+  command = "npm run build"
+  publish = "dist"

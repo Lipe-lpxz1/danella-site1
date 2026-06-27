@@ -1,0 +1,501 @@
+/* =========================================================================
+   Configuração base do Tailwind CSS v4 e da lib de animações tw-animate-css
+   ========================================================================= */
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* =========================================================================
+   Mapeamento das variáveis de cor/fonte/raio para o sistema de "design
+   tokens" do Tailwind (permite usar classes como bg-brand-dark, etc.)
+   ========================================================================= */
+@theme inline {
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-brand-dark: var(--brand-dark);
+  --color-brand-muted: var(--brand-muted);
+  --color-brand-light: var(--brand-light);
+  --color-brand-accent: var(--brand-accent);
+}
+
+/* =========================================================================
+   Paleta de cores do site (tema escuro/"luxo"). Para trocar as cores
+   principais do site, mude os valores aqui — eles se propagam para
+   todas as classes que usam --color-brand-* acima.
+   ========================================================================= */
+:root {
+  --radius: 0.25rem;
+
+  --brand-dark: oklch(0.16 0.022 15);
+  --brand-muted: oklch(0.22 0.028 18);
+  --brand-light: oklch(0.95 0.018 35);
+  --brand-accent: oklch(0.78 0.085 35);
+
+  --gradient-soft:
+    radial-gradient(ellipse at top, oklch(0.78 0.085 35 / 0.12), transparent 60%),
+    linear-gradient(180deg, oklch(0.18 0.025 18) 0%, oklch(0.14 0.02 15) 100%);
+  --gradient-rose: linear-gradient(135deg, oklch(0.82 0.075 30), oklch(0.72 0.09 25));
+  --shadow-soft: 0 30px 80px -30px oklch(0.78 0.085 35 / 0.25);
+
+  --background: var(--brand-dark);
+  --foreground: var(--brand-light);
+  --card: var(--brand-muted);
+  --card-foreground: var(--brand-light);
+  --popover: var(--brand-muted);
+  --popover-foreground: var(--brand-light);
+  --primary: var(--brand-light);
+  --primary-foreground: var(--brand-dark);
+  --secondary: oklch(0.26 0.025 20);
+  --secondary-foreground: var(--brand-light);
+  --muted: oklch(0.26 0.025 20);
+  --muted-foreground: oklch(0.7 0.025 30);
+  --accent: var(--brand-accent);
+  --accent-foreground: var(--brand-dark);
+  --destructive: oklch(0.55 0.2 25);
+  --destructive-foreground: var(--brand-light);
+  --border: oklch(0.95 0.02 35 / 10%);
+  --input: oklch(0.95 0.02 35 / 14%);
+  --ring: var(--brand-accent);
+}
+
+.dark {
+}
+
+/* =========================================================================
+   Estilos base aplicados ao site inteiro (corpo do texto, seleção de
+   texto, e proteções contra textos longos "vazarem" do layout)
+   ========================================================================= */
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "ss02";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  /* Evita que textos longos sem espaço (ex.: e-mails) estourem a largura
+     do elemento pai e quebrem o layout em telas estreitas. */
+  h1,
+  h2,
+  h3,
+  p,
+  a,
+  button,
+  label,
+  dt,
+  dd {
+    min-width: 0;
+  }
+
+  h1,
+  h2,
+  h3 {
+    overflow-wrap: anywhere;
+  }
+
+  p,
+  a,
+  button,
+  label,
+  dt,
+  dd,
+  span {
+    overflow-wrap: break-word;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--brand-accent) 35%, transparent);
+    color: var(--brand-light);
+  }
+}
+
+/* =========================================================================
+   Classes utilitárias próprias do site (além das classes padrão do
+   Tailwind), usadas em vários componentes/páginas diferentes.
+   ========================================================================= */
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+  /* Espaçamento entre letras usado nos rótulos/textos em caixa alta
+     (ex.: "DISCOGRAFIA", "BOOKING") — encolhe um pouco em telas menores. */
+  .tracking-luxury {
+    letter-spacing: clamp(0.12em, 0.7vw, 0.3em);
+  }
+  .tracking-hero {
+    letter-spacing: clamp(0.16em, 1vw, 0.5em);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  /* Tamanho de fonte "fluido": cresce/encolhe suavemente com a largura
+     da tela, sem precisar de várias media queries diferentes. */
+  .headline-fluid {
+    font-size: clamp(3.25rem, 16vw, 9rem);
+    line-height: 0.95;
+  }
+  .title-fluid {
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    line-height: 1.02;
+  }
+  .bg-gradient-soft {
+    background-image: var(--gradient-soft);
+  }
+  .bg-gradient-rose {
+    background-image: var(--gradient-rose);
+  }
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  .text-rose-gold {
+    color: var(--brand-accent);
+  }
+  /* Imagem de fundo da seção "hero" (topo da home): fica sempre
+     centralizada e cobrindo a tela toda, mesmo em telas muito largas
+     ou muito estreitas, sem distorcer. */
+  .hero-fixed-image {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: max(100vw, 1440px);
+    height: max(100vh, 900px);
+    min-width: 1440px;
+    min-height: 900px;
+    transform: translateX(-50%);
+    object-fit: cover;
+    object-position: top center;
+  }
+  /* Filtro de cor aplicado à imagem do hero, dando um tom mais quente
+     e com aspecto "cinematográfico". */
+  .hero-tinted {
+    filter: saturate(0.88) contrast(1.05) sepia(0.18) hue-rotate(-8deg);
+  }
+}
+
+/* =========================================================================
+   Página "Sobre" (biografia): em telas até 1023px, a foto flutua à
+   esquerda do início do texto da biografia.
+   ========================================================================= */
+@media (max-width: 1023.98px) {
+  .sobre-figure {
+    float: left;
+    width: 45%;
+    margin: 0 1.25rem 0.75rem 0;
+  }
+  /* Garante que o conteúdo que vem depois da biografia (ex.: a ficha
+     com Origem/Base/Projeto) comece sempre abaixo da foto, mesmo que
+     o texto da biografia seja mais curto que a foto. */
+  .sobre-bio::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .sobre-figure {
+    width: 42%;
+    margin: 0 2rem 1rem 0;
+  }
+}
+
+/* =========================================================================
+   Página "Discografia": em mobile/tablet, a capa do álbum flutua à
+   esquerda do início da descrição e o player do Spotify flutua à
+   direita no meio do texto, fazendo a descrição "abraçar" os dois.
+   ========================================================================= */
+@media (max-width: 767.98px) {
+  .discografia-record {
+    row-gap: 1rem;
+  }
+  .discografia-copy h2 {
+    font-size: clamp(1.45rem, 7vw, 2rem);
+    line-height: 1.02;
+    margin-top: 0.75rem;
+  }
+  .discografia-copy h2,
+  .discografia-description {
+    max-width: none;
+  }
+  .discografia-description {
+    margin-top: 0.85rem;
+    /* Hifenização automática: quebra palavras grandes no fim da linha
+       com um hífen (como em livros/jornais), evitando que palavras
+       longas estourem a coluna estreita ao lado da capa/player.
+       Depende do atributo lang="pt-BR" no <html> (ver __root.tsx) para
+       usar as regras de sílaba corretas do português.
+       O texto fica alinhado à esquerda (não justificado), mantendo
+       sempre um espaço único e regular entre as palavras. */
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphenate-limit-chars: 6 3 2;
+    overflow-wrap: break-word;
+  }
+  .discografia-copy p {
+    font-size: 0.72rem;
+    line-height: 1.45;
+  }
+  .discografia-copy > div {
+    margin-top: 1rem;
+  }
+  /* Mantém o player do Spotify na mesma proporção (448:352) usada no
+     desktop, só que em escala menor — assim nada do player é cortado. */
+  .discografia-player {
+    height: auto;
+    aspect-ratio: 448 / 352;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .discografia-record {
+    row-gap: 1.5rem;
+  }
+  .discografia-copy h2 {
+    font-size: clamp(2.4rem, 7vw, 3.75rem);
+  }
+  .discografia-copy h2,
+  .discografia-description {
+    max-width: none;
+  }
+  .discografia-description {
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphenate-limit-chars: 6 3 2;
+    overflow-wrap: break-word;
+  }
+  .discografia-player {
+    height: auto;
+    aspect-ratio: 448 / 352;
+  }
+}
+
+/* =========================================================================
+   Outras classes utilitárias: animação de entrada ao rolar a página,
+   "equalizador" decorativo, e o efeito de hover nos mosaicos da galeria.
+   ========================================================================= */
+@layer utilities {
+  /* Anima a seção suavemente ao entrar na tela durante o scroll
+     (usa a API nativa de "animation-timeline" do CSS). */
+  .reveal-block {
+    animation: reveal-block both;
+    animation-timeline: view();
+    animation-range: entry 12% cover 28%;
+  }
+  /* Ícone decorativo de "barrinhas de equalizador" pulsando, como em
+     players de música. */
+  .equalizer {
+    display: inline-flex;
+    height: 18px;
+    width: 18px;
+    align-items: end;
+    gap: 3px;
+  }
+  .equalizer span {
+    display: block;
+    width: 3px;
+    height: 45%;
+    background: currentColor;
+    transform-origin: bottom;
+    animation: equalizer-rise 1.25s ease-in-out infinite;
+  }
+  .equalizer span:nth-child(2) {
+    animation-delay: 160ms;
+  }
+  .equalizer span:nth-child(3) {
+    animation-delay: 320ms;
+  }
+  /* Efeito de escurecer a foto e revelar a legenda ao passar o mouse
+     (ou focar) em cada foto da galeria. */
+  .gallery-tile::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, oklch(0.16 0.022 15 / 0.72), transparent 42%);
+    opacity: 0;
+    transition: opacity 420ms ease;
+  }
+  .gallery-tile > span {
+    position: absolute;
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 1.1rem;
+    z-index: 1;
+    color: var(--brand-light);
+    font-size: 0.625rem;
+    letter-spacing: clamp(0.12em, 0.7vw, 0.28em);
+    line-height: 1.4;
+    text-align: left;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 420ms ease,
+      transform 420ms ease;
+  }
+  .gallery-tile:hover::after,
+  .gallery-tile:focus-visible::after,
+  .gallery-tile:hover > span,
+  .gallery-tile:focus-visible > span {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================================
+   Animações usadas em várias partes do site (fade-up, fade-in, zoom
+   lento, flutuação suave, etc.)
+   ========================================================================= */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slow-zoom {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes soft-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes reveal-block {
+  from {
+    opacity: 0.25;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes equalizer-rise {
+  0%,
+  100% {
+    transform: scaleY(0.45);
+    opacity: 0.65;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* Classes que "ligam" as animações acima — use-as diretamente no JSX,
+   por exemplo: <div className="animate-fade-up delay-200"> */
+.animate-fade-up {
+  animation: fade-up 1.4s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+.animate-fade-in {
+  animation: fade-in 1.6s ease-out both;
+}
+.animate-quick-fade-in {
+  animation: fade-in 220ms ease-out both;
+}
+.animate-slow-zoom {
+  animation: slow-zoom 14s ease-out both;
+}
+.animate-soft-float {
+  animation: soft-float 6s ease-in-out infinite;
+}
+.delay-200 {
+  animation-delay: 200ms;
+}
+.delay-400 {
+  animation-delay: 400ms;
+}
+.delay-600 {
+  animation-delay: 600ms;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+* {
+  transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* =========================================================================
+   Acessibilidade: para quem ativou "reduzir movimento" no sistema,
+   desliga todas as animações/transições do site (evita desconforto,
+   tontura ou crises em pessoas sensíveis a movimento).
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-block,
+  .equalizer span,
+  .animate-fade-up,
+  .animate-fade-in,
+  .animate-quick-fade-in,
+  .animate-slow-zoom,
+  .animate-soft-float {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+}
