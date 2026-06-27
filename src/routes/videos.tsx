@@ -20,12 +20,12 @@ export const Route = createFileRoute("/videos")({
 // IDs dos posts/reels do Instagram exibidos nesta página.
 // Para adicionar um vídeo novo, basta colocar o ID do post do Instagram aqui.
 const videos = [
-  { id: "DZXlXSmse1J", label: "Vídeo 01" },
+  { id: "DZTir79OU3j", label: "Vídeo 01" },  
   { id: "DLxvezRvn58", label: "Vídeo 02" },
-  { id: "DEU3R0rRfdi", label: "Vídeo 03" },
+  { id: "DZXlXSmse1J", label: "Vídeo 03" },
   { id: "C-KxKuxs2h8", label: "Vídeo 04" },
   { id: "DERvxroOVM0", label: "Vídeo 05" },
-  { id: "DZTir79OU3j", label: "Vídeo 06" },
+  { id: "DEU3R0rRfdi", label: "Vídeo 06" },
 ];
 
 // Monta a URL de incorporação (embed) de um post do Instagram a partir do ID.
