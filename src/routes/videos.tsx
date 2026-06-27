@@ -25,6 +25,7 @@ const videos = [
   { id: "DEU3R0rRfdi", label: "Vídeo 03" },
   { id: "C-KxKuxs2h8", label: "Vídeo 04" },
   { id: "DERvxroOVM0", label: "Vídeo 05" },
+  { id: "DZTir79OU3j", label: "Vídeo 06" },
 ];
 
 // Monta a URL de incorporação (embed) de um post do Instagram a partir do ID.
