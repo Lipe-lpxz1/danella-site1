@@ -1,8 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { SectionLabel } from "@/components/SectionLabel";
 
-// Registra a rota "/contato" e seus metadados.
 export const Route = createFileRoute("/contato")({
   head: () => ({
     meta: [
@@ -17,18 +16,31 @@ export const Route = createFileRoute("/contato")({
   component: ContatoPage,
 });
 
-// Página "/contato": dados de contato diretos (e-mail, telefone,
-// Instagram) ao lado de um formulário de contratação.
-//
-// ATENÇÃO: o formulário abaixo, no estado atual, NÃO envia a mensagem
-// para nenhum lugar (nem e-mail, nem banco de dados) — ele só marca
-// "enviado" na tela ao ser submetido (veja o onSubmit mais abaixo).
-// Para o formulário funcionar de verdade, é preciso integrá-lo a um
-// serviço de envio de e-mail/formulário (ex.: Resend, Formspree, um
-// endpoint próprio no backend, etc.).
 function ContatoPage() {
-  // Controla se a mensagem de confirmação "enviado" já deve aparecer.
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setStatus("sending");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch("/api/contato", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) throw new Error("Não foi possível enviar a mensagem.");
+      setStatus("sent");
+      form.reset();
+    } catch {
+      setStatus("error");
+    }
+  }
 
   return (
     <section className="px-6 pt-40 pb-32 md:px-10 md:pt-48">
@@ -43,7 +55,6 @@ function ContatoPage() {
             horas.
           </p>
 
-          {/* Canais de contato diretos, sem precisar passar pelo formulário */}
           <dl className="mt-12 space-y-8">
             <div>
               <dt className="text-[10px] uppercase tracking-luxury text-brand-accent">Booking</dt>
@@ -85,55 +96,55 @@ function ContatoPage() {
           </dl>
         </div>
 
-        {/* Formulário de contratação. Ver aviso no topo do arquivo:
-            hoje ele só simula o envio, não manda a mensagem de fato. */}
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            setSent(true);
-          }}
-          className="space-y-8 lg:col-span-6 lg:col-start-7"
-        >
+        <form onSubmit={handleSubmit} className="space-y-8 lg:col-span-6 lg:col-start-7">
           <div className="grid grid-cols-2 gap-4 md:gap-8">
             <Field label="Nome">
-              <input type="text" required className={inputCls} />
+              <input name="name" type="text" autoComplete="name" required maxLength={120} className={inputCls} />
             </Field>
             <Field label="Empresa / Veículo">
-              <input type="text" className={inputCls} />
+              <input name="company" type="text" maxLength={160} className={inputCls} />
             </Field>
           </div>
           <div className="grid grid-cols-2 gap-4 md:gap-8">
             <Field label="E-mail">
-              <input type="email" required className={inputCls} />
+              <input name="email" type="email" autoComplete="email" required maxLength={254} className={inputCls} />
             </Field>
             <Field label="Telefone">
-              <input type="tel" className={inputCls} />
+              <input name="phone" type="tel" autoComplete="tel" maxLength={40} className={inputCls} />
             </Field>
           </div>
           <Field label="Tipo de evento">
             <select
+              name="eventType"
               className={inputCls + " appearance-none [&>option]:text-black [&>option]:bg-white"}
               defaultValue=""
             >
-              <option value="" disabled>
-                Selecione
-              </option>
+              <option value="" disabled>Selecione</option>
               <option>Show / Festival</option>
               <option>Imprensa</option>
               <option>Parceria</option>
+              <option>Outro</option>
             </select>
           </Field>
           <Field label="Mensagem">
-            <textarea rows={5} required className={inputCls + " resize-none"} />
+            <textarea name="message" rows={5} required maxLength={5000} className={inputCls + " resize-none"} />
           </Field>
 
           <button
             type="submit"
-            disabled={sent}
+            disabled={status === "sending" || status === "sent"}
             className="min-h-12 w-full bg-brand-light px-6 py-5 text-center text-[10px] font-semibold uppercase tracking-luxury text-brand-dark transition-colors hover:bg-brand-accent disabled:opacity-60 sm:px-8"
           >
-            {sent ? "Mensagem enviada — obrigada" : "Enviar solicitação"}
+            {status === "sending"
+              ? "Enviando…"
+              : status === "sent"
+                ? "Mensagem enviada — obrigada"
+                : "Enviar solicitação"}
           </button>
+          <p aria-live="polite" className="text-sm text-brand-light/70">
+            {status === "sent" && "Recebemos sua mensagem e entraremos em contato."}
+            {status === "error" && "Não foi possível enviar agora. Tente novamente ou fale conosco pelo WhatsApp."}
+          </p>
 
           <a
             href="https://wa.me/5511988377539"
@@ -149,12 +160,9 @@ function ContatoPage() {
   );
 }
 
-// Estilo compartilhado por todos os campos de texto/seleção do formulário.
 const inputCls =
   "w-full border-b border-border bg-transparent py-3 text-base text-brand-light outline-none transition-colors focus:border-brand-accent";
 
-// Envolve um campo do formulário com seu rótulo (label) acima, no
-// mesmo estilo visual usado em todo o formulário de contato.
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block space-y-2">
