@@ -18,10 +18,10 @@ export const Route = createFileRoute("/")({
           "Site oficial de Danella. Ouça o novo álbum, veja a agenda de shows e contrate apresentações.",
       },
       { property: "og:title", content: "Danella — Site Oficial" },
-      { property: "og:description", content: "Música cinematográfica, ao vivo e em estúdio." },
+      { property: "og:description", content: "A Rainha do pizeiro." },
       { property: "og:url", content: "https://danellaoficial.com.br/" },
       { name: "twitter:title", content: "Danella — Site Oficial" },
-      { name: "twitter:description", content: "Música cinematográfica, ao vivo e em estúdio." },
+      { name: "twitter:description", content: "A Rainha do pizeiro." },
     ],
     links: [
       { rel: "canonical", href: "/" },
