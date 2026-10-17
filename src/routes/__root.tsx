@@ -88,9 +88,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Site oficial de Danella. Música, agenda de shows, discografia, vídeos e contratação.",
       },
+      { property: "og:title", content: "Danella — Cantora & Intérprete" },
+      {
+        property: "og:description",
+        content:
+          "Site oficial de Danella. Música, agenda de shows, discografia, vídeos e contratação.",
+      },
+      { property: "og:url", content: "https://danellaoficial.com.br/" },
+      { property: "og:image", content: "https://danellaoficial.com.br/images/compartilhar.jpg" },
+      { property: "og:image:type", content: "image/jpeg" },
+      { property: "og:image:alt", content: "Danella cantando ao vivo no palco." },
       { property: "og:site_name", content: "Danella" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Danella — Cantora & Intérprete" },
+      {
+        name: "twitter:description",
+        content:
+          "Site oficial de Danella. Música, agenda de shows, discografia, vídeos e contratação.",
+      },
+      { name: "twitter:image", content: "https://danellaoficial.com.br/images/compartilhar.jpg" },
+      { name: "twitter:image:alt", content: "Danella cantando ao vivo no palco." },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

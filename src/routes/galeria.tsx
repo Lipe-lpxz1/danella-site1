@@ -7,6 +7,12 @@ import gallery2 from "@/assets/gallery-2.webp";
 import gallery3 from "@/assets/gallery-3.webp";
 import gallery4 from "@/assets/gallery-4.webp";
 import gallery5 from "@/assets/gallery-5.webp";
+import gallery6 from "@/assets/gallery-6.webp";
+import gallery7 from "@/assets/gallery-7.webp";
+import gallery8 from "@/assets/gallery-8.webp";
+import gallery9 from "@/assets/gallery-9.webp";
+import gallery10 from "@/assets/gallery-10.webp";
+import gallery11 from "@/assets/gallery-11.webp";
 
 // Registra a rota "/galeria" e seus metadados.
 export const Route = createFileRoute("/galeria")({
@@ -16,7 +22,9 @@ export const Route = createFileRoute("/galeria")({
       { name: "description", content: "Imagens de palco, estúdio e ensaios." },
       { property: "og:title", content: "Galeria — Danella" },
       { property: "og:description", content: "Visuais e bastidores." },
-      { property: "og:url", content: "/galeria" },
+      { property: "og:url", content: "https://danellaoficial.com.br/galeria" },
+      { name: "twitter:title", content: "Galeria — Danella" },
+      { name: "twitter:description", content: "Visuais e bastidores." },
     ],
     links: [{ rel: "canonical", href: "/galeria" }],
   }),
@@ -31,6 +39,16 @@ const images = [
   { src: gallery3, alt: "Danella vestido verde", caption: "Show" },
   { src: gallery4, alt: "Danella rosto vestido preto", caption: "Bastidores" },
   { src: gallery5, alt: "Danella show grande", caption: "Festival" },
+  {
+    src: gallery6,
+    alt: "Danella cantando com figurino branco e preto no palco",
+    caption: "Ao vivo",
+  },
+  { src: gallery7, alt: "Danella cantando com figurino rosa floral", caption: "Performance" },
+  { src: gallery8, alt: "Danella cantando com vestido preto", caption: "Show" },
+  { src: gallery9, alt: "Danella cantando com vestido vermelho e banda", caption: "Ao vivo" },
+  { src: gallery10, alt: "Danella cantando com vestido vermelho no palco", caption: "Performance" },
+  { src: gallery11, alt: "Danella cantando com vestido preto e banda", caption: "Show" },
 ];
 
 // Página "/galeria": mosaico de fotos em tamanhos variados. Clicar em
@@ -120,6 +138,32 @@ function GaleriaPage() {
               className="aspect-[16/9] w-full object-cover object-bottom transition-transform duration-700 group-hover:scale-105"
             />
           </button>
+          {images.slice(5).map((image, index) => (
+            <button
+              key={image.src}
+              onClick={() => setActive(index + 5)}
+              className={`gallery-tile group relative col-span-6 overflow-hidden ${index === 0 ? "aspect-[5/4]" : "aspect-[4/5]"}`}
+            >
+              <SmartImage
+                src={image.src}
+                alt={image.alt}
+                loading="lazy"
+                width={
+                  index === 0
+                    ? 1280
+                    : index === 1
+                      ? 596
+                      : index === 2
+                        ? 820
+                        : index === 3
+                          ? 720
+                          : 853
+                }
+                height={index === 0 ? 1024 : index === 1 ? 1280 : 1280}
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+            </button>
+          ))}
         </div>
       </div>
 

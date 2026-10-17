@@ -19,7 +19,9 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:title", content: "Danella — Site Oficial" },
       { property: "og:description", content: "Música cinematográfica, ao vivo e em estúdio." },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: "https://danellaoficial.com.br/" },
+      { name: "twitter:title", content: "Danella — Site Oficial" },
+      { name: "twitter:description", content: "Música cinematográfica, ao vivo e em estúdio." },
     ],
     links: [
       { rel: "canonical", href: "/" },
