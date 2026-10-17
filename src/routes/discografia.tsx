@@ -148,7 +148,7 @@ function DiscografiaPage() {
                       ele comece sempre abaixo de todo o parágrafo, mesmo
                       que o texto seja mais curto que a altura da capa. */}
                   <div className="clear-both" />
-                  <div className="mt-5">
+                  <div className="mobile-player-frame mt-5">
                     <SpotifyPlayer title={r.title} />
                   </div>
                 </div>

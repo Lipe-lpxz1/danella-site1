@@ -23,7 +23,7 @@ const chapters = [
   {
     no: "III",
     title: "Presença",
-    text: "​Quando Danella assume o comando, o palco vira o centro de uma energia absoluta. A cantora domina o ambiente com uma entrega que vai além da música: aqui, a conexão não é um detalhe, é o coração do show. Com a assinatura de um espetáculo inesquecível, Danella, a rainha do piseiro, impõe uma voz marcante que transforma cada momento em uma vivência única e inesquecível para o povo.",
+    text: "Nos dias de hoje, Danella é uma artista nacional consolidada, de nome e entrega, que leva aos palcos profissionalismo, segurança e a maturidade de quem transforma experiência em presença. Tal como um bom vinho, sua arte amadureceu com o tempo.",
     img: presencaAsset,
   },
 ];
@@ -81,7 +81,7 @@ export function Scrollytelling() {
     <section className="relative border-t border-border">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,theme(colors.brand.accent/8%),transparent_60%)]" />
 
-      <div className="mx-auto max-w-7xl px-6 pt-32 md:px-10 md:pt-44">
+      <div className="journey-heading mx-auto max-w-7xl px-6 pt-32 md:px-10 md:pt-44">
         <div className="grid gap-6 md:grid-cols-12">
           <div className="md:col-span-5">
             <SectionLabel index="02">A jornada</SectionLabel>
@@ -93,15 +93,15 @@ export function Scrollytelling() {
       </div>
 
       {/* Versão mobile: cada capítulo com sua própria imagem, em lista vertical simples */}
-      <div className="mx-auto flex max-w-7xl flex-col gap-16 px-6 py-16 md:hidden">
+      <div className="journey-mobile mx-auto flex max-w-7xl flex-col gap-16 px-6 py-16 md:hidden">
         {chapters.map((c) => (
-          <article key={c.no} className="flex flex-col gap-5">
-            <div>
+          <article key={c.no} className="journey-chapter flex flex-col gap-5">
+            <div className="journey-copy">
               <span className="font-display text-2xl italic text-brand-accent">{c.no}</span>
               <h3 className="mt-2 font-display text-3xl">{c.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-brand-light/70">{c.text}</p>
             </div>
-            <div className="relative aspect-[4/5] w-full overflow-hidden">
+            <div className="journey-photo relative aspect-[4/5] w-full overflow-hidden">
               <SmartImage
                 src={c.img}
                 alt={c.title}

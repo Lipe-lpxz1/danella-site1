@@ -40,7 +40,7 @@ export function AgendaPage() {
   return (
     <section className="px-6 pt-40 pb-32 md:px-10 md:pt-48">
       <div className="mx-auto max-w-6xl">
-        <header className="mb-20 flex flex-row items-end justify-between gap-6">
+        <header className="agenda-heading mb-20 flex flex-row items-end justify-between gap-6">
           <div className="animate-fade-up">
             <SectionLabel index="02">Ao vivo</SectionLabel>
             <h1 className="mt-6 font-display title-fluid text-balance">
@@ -56,19 +56,21 @@ export function AgendaPage() {
           {shows.map((s) => (
             <li
               key={`${s.date}-${s.city}`}
-              className="group grid grid-cols-12 items-center gap-3 py-8 transition-all md:gap-6 md:py-10 md:hover:pl-4"
+              className="agenda-row group grid grid-cols-12 items-center gap-3 py-8 transition-all md:gap-6 md:py-10 md:hover:pl-4"
             >
-              <span className="col-span-2 font-display text-xl italic text-brand-accent md:text-2xl">
+              <span className="agenda-date col-span-2 font-display text-xl italic text-brand-accent md:text-2xl">
                 {s.date}
               </span>
-              <div className="col-span-5">
+              <div className="agenda-city col-span-5">
                 <p className="font-display text-xl text-brand-light md:text-3xl">{s.city}</p>
               </div>
-              <p className="col-span-3 text-xs text-brand-light/55 md:text-sm">{s.venue}</p>
-              <div className="col-span-2 text-right">
+              <p className="agenda-venue col-span-3 text-xs text-brand-light/55 md:text-sm">
+                {s.venue}
+              </p>
+              <div className="agenda-status col-span-2 text-right">
                 <button
                   disabled={s.status !== "Ingressos"}
-                  className="min-h-10 w-full border border-brand-light/25 px-1 py-2.5 text-center text-[8px] uppercase tracking-[0.08em] transition-colors enabled:hover:bg-brand-light enabled:hover:text-brand-dark disabled:opacity-40 md:px-5 md:text-[10px] md:tracking-luxury"
+                  className="agenda-status-button min-h-10 w-full border border-brand-light/25 px-1 py-2.5 text-center text-[8px] uppercase tracking-[0.08em] transition-colors enabled:hover:bg-brand-light enabled:hover:text-brand-dark disabled:opacity-40 md:px-5 md:text-[10px] md:tracking-luxury"
                 >
                   {s.status}
                 </button>

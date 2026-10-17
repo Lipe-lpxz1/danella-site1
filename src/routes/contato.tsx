@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useRef, useState } from "react";
 import { SectionLabel } from "@/components/SectionLabel";
+import { sendContactMessage } from "@/lib/contact.functions";
 
+// Registra a rota "/contato" e seus metadados.
 export const Route = createFileRoute("/contato")({
   head: () => ({
     meta: [
@@ -17,30 +19,10 @@ export const Route = createFileRoute("/contato")({
 });
 
 function ContatoPage() {
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setStatus("sending");
-
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-
-    try {
-      const response = await fetch("/api/contato", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) throw new Error("Não foi possível enviar a mensagem.");
-      setStatus("sent");
-      form.reset();
-    } catch {
-      setStatus("error");
-    }
-  }
+  const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+  const submitting = useRef(false);
 
   return (
     <section className="px-6 pt-40 pb-32 md:px-10 md:pt-48">
@@ -55,10 +37,11 @@ function ContatoPage() {
             horas.
           </p>
 
+          {/* Canais de contato diretos, sem precisar passar pelo formulário */}
           <dl className="mt-12 space-y-8">
             <div>
               <dt className="text-[10px] uppercase tracking-luxury text-brand-accent">Booking</dt>
-              <dd className="mt-2 font-display text-2xl">
+              <dd className="mobile-booking-email mt-2 font-display text-2xl">
                 <a
                   href="mailto:Danielaribeirocontato@hotmail.com"
                   className="hover:text-brand-accent break-all"
@@ -96,55 +79,100 @@ function ContatoPage() {
           </dl>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-8 lg:col-span-6 lg:col-start-7">
-          <div className="grid grid-cols-2 gap-4 md:gap-8">
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            if (submitting.current || sent) return;
+
+            const formData = new FormData(e.currentTarget);
+            const data = {
+              name: String(formData.get("name") ?? ""),
+              company: String(formData.get("company") ?? ""),
+              email: String(formData.get("email") ?? ""),
+              telephone: String(formData.get("telephone") ?? ""),
+              eventType: String(formData.get("eventType") ?? ""),
+              message: String(formData.get("message") ?? ""),
+              website: String(formData.get("website") ?? ""),
+            };
+
+            submitting.current = true;
+            setSending(true);
+            setError("");
+            try {
+              const result = await sendContactMessage({ data });
+              if (!result.ok) {
+                setError(result.message);
+                return;
+              }
+              setSent(true);
+            } catch {
+              setError(
+                "Não foi possível enviar sua mensagem agora. Confira os dados e tente novamente.",
+              );
+            } finally {
+              submitting.current = false;
+              setSending(false);
+            }
+          }}
+          className="contact-form space-y-8 lg:col-span-6 lg:col-start-7"
+        >
+          <div className="contact-field-pair grid grid-cols-2 gap-4 md:gap-8">
             <Field label="Nome">
-              <input name="name" type="text" autoComplete="name" required maxLength={120} className={inputCls} />
+              <input name="name" type="text" autoComplete="name" required className={inputCls} />
             </Field>
             <Field label="Empresa / Veículo">
-              <input name="company" type="text" maxLength={160} className={inputCls} />
+              <input name="company" type="text" autoComplete="organization" className={inputCls} />
             </Field>
           </div>
-          <div className="grid grid-cols-2 gap-4 md:gap-8">
+          <div className="contact-field-pair grid grid-cols-2 gap-4 md:gap-8">
             <Field label="E-mail">
-              <input name="email" type="email" autoComplete="email" required maxLength={254} className={inputCls} />
+              <input name="email" type="email" autoComplete="email" required className={inputCls} />
             </Field>
             <Field label="Telefone">
-              <input name="phone" type="tel" autoComplete="tel" maxLength={40} className={inputCls} />
+              <input name="telephone" type="tel" autoComplete="tel" className={inputCls} />
             </Field>
           </div>
           <Field label="Tipo de evento">
             <select
-              name="eventType"
               className={inputCls + " appearance-none [&>option]:text-black [&>option]:bg-white"}
               defaultValue=""
+              name="eventType"
             >
-              <option value="" disabled>Selecione</option>
+              <option value="" disabled>
+                Selecione
+              </option>
               <option>Show / Festival</option>
               <option>Imprensa</option>
               <option>Parceria</option>
-              <option>Outro</option>
             </select>
           </Field>
           <Field label="Mensagem">
-            <textarea name="message" rows={5} required maxLength={5000} className={inputCls + " resize-none"} />
+            <textarea name="message" rows={5} required className={inputCls + " resize-none"} />
           </Field>
+
+          <div
+            aria-hidden="true"
+            className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden"
+          >
+            <label>
+              Não preencha este campo
+              <input name="website" type="text" tabIndex={-1} autoComplete="off" />
+            </label>
+          </div>
+
+          {error && (
+            <p role="alert" aria-live="polite" className="text-sm text-brand-accent">
+              {error}
+            </p>
+          )}
 
           <button
             type="submit"
-            disabled={status === "sending" || status === "sent"}
+            disabled={sending || sent}
             className="min-h-12 w-full bg-brand-light px-6 py-5 text-center text-[10px] font-semibold uppercase tracking-luxury text-brand-dark transition-colors hover:bg-brand-accent disabled:opacity-60 sm:px-8"
           >
-            {status === "sending"
-              ? "Enviando…"
-              : status === "sent"
-                ? "Mensagem enviada — obrigada"
-                : "Enviar solicitação"}
+            {sent ? "Mensagem enviada — obrigada" : sending ? "Enviando…" : "Enviar solicitação"}
           </button>
-          <p aria-live="polite" className="text-sm text-brand-light/70">
-            {status === "sent" && "Recebemos sua mensagem e entraremos em contato."}
-            {status === "error" && "Não foi possível enviar agora. Tente novamente ou fale conosco pelo WhatsApp."}
-          </p>
 
           <a
             href="https://wa.me/5511988377539"
@@ -160,9 +188,12 @@ function ContatoPage() {
   );
 }
 
+// Estilo compartilhado por todos os campos de texto/seleção do formulário.
 const inputCls =
   "w-full border-b border-border bg-transparent py-3 text-base text-brand-light outline-none transition-colors focus:border-brand-accent";
 
+// Envolve um campo do formulário com seu rótulo (label) acima, no
+// mesmo estilo visual usado em todo o formulário de contato.
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block space-y-2">

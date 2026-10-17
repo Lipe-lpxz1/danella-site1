@@ -11,25 +11,21 @@ import { SmartImage } from "@/components/SmartImage";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Danella a Rainha do Piseiro." },
+      { title: "Danella — Cantora, intérprete e compositora" },
       {
         name: "description",
         content:
           "Site oficial de Danella. Ouça o novo álbum, veja a agenda de shows e contrate apresentações.",
       },
       { property: "og:title", content: "Danella — Site Oficial" },
-      { property: "og:description", content: "Danella a Rainha do Piseiro." },
-      { property: "og:url", content: "https://danellaoficial.com.br" },
-      { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://danellaoficial.com.br/compartilhar.jpg" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://danellaoficial.com.br/compartilhar.jpg" },
+      { property: "og:description", content: "Música cinematográfica, ao vivo e em estúdio." },
+      { property: "og:url", content: "/" },
     ],
     links: [
       { rel: "canonical", href: "/" },
       // Avisa o navegador para já começar a baixar a imagem do topo
       // (hero) com prioridade alta, antes mesmo da página renderizar.
-      { rel: "preload", as: "image", href: heroAsset, fetchpriority: "high" },
+      { rel: "preload", as: "image", href: heroAsset, fetchPriority: "high" },
     ],
   }),
   component: HomePage,
@@ -46,7 +42,7 @@ function HomePage() {
   return (
     <>
       {/* Seção 1: imagem de fundo em tela cheia, título e botões de ação */}
-      <section className="relative h-screen min-h-[680px] w-full overflow-hidden">
+      <section className="home-hero relative h-screen min-h-[680px] w-full overflow-hidden">
         <SmartImage
           src={heroAsset}
           alt="Danella em performance"
@@ -102,7 +98,7 @@ function HomePage() {
       </section>
 
       {/* Seção 2: apresentação curta da artista, com link para a página "Sobre" */}
-      <section className="reveal-block px-6 py-32 md:px-10 md:py-44">
+      <section className="home-intro reveal-block px-6 py-32 md:px-10 md:py-44">
         <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-12 md:gap-12">
           <div className="md:col-span-12">
             <SectionLabel index="01">A artista</SectionLabel>
@@ -172,7 +168,7 @@ function HomePage() {
       </section>
 
       {/* Seção 5: foto de destaque em largura total, com frase de impacto */}
-      <section className="reveal-block relative h-[60vh] min-h-[420px] w-full overflow-hidden">
+      <section className="home-quote reveal-block relative h-[60vh] min-h-[420px] w-full overflow-hidden">
         <SmartImage
           src={palcoAsset}
           alt="Performance ao piano"
@@ -183,7 +179,7 @@ function HomePage() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/30 to-transparent" />
         <div className="absolute inset-x-0 bottom-12 mx-auto max-w-7xl px-6 md:px-10">
-          <p className="font-display text-3xl italic text-brand-light/90 md:text-5xl whitespace-nowrap">
+          <p className="home-quote-text font-display text-3xl italic text-brand-light/90 md:text-5xl whitespace-nowrap">
             "Cantar é transformar presença em conexão."
           </p>
         </div>

@@ -42,7 +42,7 @@ function SobrePage() {
               fetchPriority="high"
               width={1200}
               height={1800}
-              className="w-full object-cover"
+              className="sobre-portrait w-full object-cover"
             />
           </figure>
 

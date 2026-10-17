@@ -1,4 +1,4 @@
-import { createStart, createMiddleware } from "@tanstack/react-start";
+import { createStart, createMiddleware, createCsrfMiddleware } from "@tanstack/react-start";
 
 import { renderErrorPage } from "./lib/error-page";
 
@@ -21,8 +21,12 @@ const errorMiddleware = createMiddleware().server(async ({ next }) => {
   }
 });
 
+const csrfMiddleware = createCsrfMiddleware({
+  filter: (context) => context.handlerType === "serverFn",
+});
+
 // Instância principal do TanStack Start, registrando o middleware de erro
 // para que ele rode em toda requisição feita ao servidor.
 export const startInstance = createStart(() => ({
-  requestMiddleware: [errorMiddleware],
+  requestMiddleware: [csrfMiddleware, errorMiddleware],
 }));

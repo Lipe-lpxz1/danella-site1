@@ -20,12 +20,11 @@ export const Route = createFileRoute("/videos")({
 // IDs dos posts/reels do Instagram exibidos nesta página.
 // Para adicionar um vídeo novo, basta colocar o ID do post do Instagram aqui.
 const videos = [
-  { id: "DZTir79OU3j", label: "Vídeo 01" },  
+  { id: "DZXlXSmse1J", label: "Vídeo 01" },
   { id: "DLxvezRvn58", label: "Vídeo 02" },
-  { id: "DZXlXSmse1J", label: "Vídeo 03" },
+  { id: "DEU3R0rRfdi", label: "Vídeo 03" },
   { id: "C-KxKuxs2h8", label: "Vídeo 04" },
   { id: "DERvxroOVM0", label: "Vídeo 05" },
-  { id: "DEU3R0rRfdi", label: "Vídeo 06" },
 ];
 
 // Monta a URL de incorporação (embed) de um post do Instagram a partir do ID.
@@ -67,7 +66,7 @@ function VideosPage() {
 
           {/* Fila de miniaturas dos outros vídeos — clicar em uma delas
               troca o vídeo em destaque acima */}
-          <div className="flex gap-3 overflow-x-auto pb-2 md:justify-center lg:grid lg:grid-cols-2 lg:content-start lg:overflow-visible lg:pb-0">
+          <div className="video-previews flex gap-3 overflow-x-auto pb-2 md:justify-center lg:grid lg:grid-cols-2 lg:content-start lg:overflow-visible lg:pb-0">
             {previewVideos.map((v) => {
               const index = videos.findIndex((video) => video.id === v.id);
 
@@ -76,7 +75,7 @@ function VideosPage() {
                   key={v.id}
                   type="button"
                   onClick={() => setActive(index)}
-                  className="group relative h-52 w-36 shrink-0 overflow-hidden border border-brand-light/15 bg-brand-muted text-left transition-colors hover:border-brand-accent focus-visible:border-brand-accent focus-visible:outline-none lg:h-64 lg:w-full"
+                  className="video-preview group relative h-52 w-36 shrink-0 overflow-hidden border border-brand-light/15 bg-brand-muted text-left transition-colors hover:border-brand-accent focus-visible:border-brand-accent focus-visible:outline-none lg:h-64 lg:w-full"
                 >
                   <iframe
                     title={`Preview - ${v.label}`}
@@ -86,7 +85,7 @@ function VideosPage() {
                     tabIndex={-1}
                     className="pointer-events-none h-full w-full scale-[1.02]"
                   />
-                  <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-dark via-brand-dark/70 to-transparent px-4 pb-4 pt-10 text-[10px] font-semibold uppercase tracking-luxury text-brand-light transition-colors group-hover:text-brand-accent">
+                  <span className="video-preview-label pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-dark via-brand-dark/70 to-transparent px-4 pb-4 pt-10 text-[10px] font-semibold uppercase tracking-luxury text-brand-light transition-colors group-hover:text-brand-accent">
                     {v.label}
                   </span>
                 </button>

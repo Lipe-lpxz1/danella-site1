@@ -65,7 +65,7 @@ export function SiteHeader() {
           aria-label="Abrir menu"
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
+          className="flex h-11 w-11 flex-col items-center justify-center gap-1.5 lg:hidden"
         >
           <span
             className={`h-px w-6 bg-brand-light transition-transform ${open ? "translate-y-[3px] rotate-45" : ""}`}

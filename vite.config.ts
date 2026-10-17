@@ -1,4 +1,9 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+import { loadEnv, type ConfigEnv, type UserConfig } from "vite";
+
+const projectRoot = dirname(fileURLToPath(import.meta.url));
 
 // Esta configuração vem do pacote @lovable.dev/vite-tanstack-config, que
 // faz por baixo dos panos toda a configuração padrão do Vite + TanStack
@@ -13,7 +18,7 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 //
 // Redireciona o ponto de entrada do servidor do TanStack Start para
 // src/server.ts (nosso wrapper de SSR com tratamento de erros).
-export default defineConfig({
+const lovableConfig = defineConfig({
   tanstackStart: {
     server: { entry: "server" },
   },
@@ -27,3 +32,13 @@ export default defineConfig({
     preset: "netlify",
   },
 });
+
+// Vite keeps unprefixed variables out of import.meta.env. Load only the
+// server-side Resend settings into the local Node process for server handlers.
+export default async function configure(env: ConfigEnv): Promise<UserConfig> {
+  const localEnv = loadEnv(env.mode, projectRoot, "");
+  for (const name of ["RESEND_API_KEY", "RESEND_FROM", "RESEND_TO"]) {
+    if (!process.env[name] && localEnv[name]) process.env[name] = localEnv[name];
+  }
+  return lovableConfig(env);
+}
